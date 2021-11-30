@@ -5,9 +5,112 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
     <script src="./index.js"></script>
 </head>
 <body>
-    
+    <div class="container">
+        <div class="win-message d-none">
+            <h2>hello</h2>
+        </div>
+        <div class="score"></div>
+        <div class="selection">
+            <div class="form" data-form="SCISSOR">
+                <img data-form="SCISSOR" src="./assets/icons/scissor.png" alt="">
+                <p data-form="SCISSOR">SCISSOR</p>
+            </div>
+            <div class="form" data-form="ROCK">
+                <img data-form="ROCK" src="./assets/icons/rock.png" alt="">
+                <p data-form="ROCK">ROCK</p>
+            </div>
+            <div class="form" data-form="PAPER">
+                <img data-form="PAPER" src="./assets/icons/paper.png" alt="">
+                <p data-form="PAPER">PAPER</p>
+            </div>
+        </div>
+        <div class="message"></div>
+        <div class="reset d-none">
+            <button class="reset_button">Reset Game</button>
+        </div>
+    </div>
 </body>
+<script>
+
+    document.addEventListener('DOMContentLoaded', (e) => {
+        const toWin = 5;
+
+        const form = document.querySelectorAll('.form');
+
+        const score = document.querySelector('.score');
+        score.textContent = updateScore();
+
+        const message = document.querySelector('.message');
+        
+        form.forEach((dom) => {
+            dom.addEventListener('click', playSingle);
+        });
+
+        function playSingle(e) {
+            let result = playRound(e.target.dataset.form, computerPlay());
+
+            score.textContent = updateScore();
+            message.textContent = result;
+
+            winCondition();
+        }
+
+        function updateScore() {
+            return `Player ${player} : ${computer} Computer`;
+        }
+
+        function winCondition () {
+            const win_message = document.querySelector('.win-message');
+
+            if (player === toWin) {
+                win_message.textContent = "GAME OVER, Player Wins!";
+                win_message.classList.remove('d-none');
+                removeEventListeners();
+                return;
+            }
+
+            if (computer === toWin) {
+                win_message.textContent = "GAME OVER, Computer Wins!";
+                win_message.classList.remove('d-none');
+                removeEventListeners();
+                return;
+            }
+        }
+
+        function removeEventListeners () {
+            form.forEach((dom) => {
+                dom.removeEventListener('click', playSingle);
+            });
+
+            showResetButton();
+        }
+
+        function showResetButton () {
+            const btn = document.querySelector('.reset');
+
+            btn.addEventListener('click', resetGame);
+
+            btn.classList.remove('d-none');
+        }
+
+        function resetGame(e) {
+            const win_message = document.querySelector('.win-message');
+
+            form.forEach((dom) => {
+                dom.addEventListener('click', playSingle);
+            });
+
+            player = computer = 0;
+
+            score.textContent = updateScore();
+            message.textContent = '';
+            win_message.classList.add('d-none');
+        }
+
+    });
+</script>
 </html>

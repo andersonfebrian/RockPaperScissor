@@ -1,0 +1,39 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    height: 100vh;
+}
+
+img {
+    width: 100px;
+    height: 100px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
+    flex-direction: column;
+}
+
+.container > .selection {
+    display: flex;
+    gap: 20px;
+}
+
+
+.container > .score , .container > .message{
+    padding: 25px;
+}
+
+.d-none {
+    display: none;
+}
+
+.form {
+    text-align: center;
+}
